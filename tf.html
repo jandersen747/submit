@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset='utf-8'/>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
+        <title class='title'></title>
+        <script src='./js/newQ.js'></script>
+        <script type="text/javascript" src="data/incidents.json"></script>
+        <script>
+            const readIncidents = function () {
+                // læs m ajax
+                let oReq = new XMLHttpRequest();
+                oReq.addEventListener("load", function () {
+                    let incidents = [];
+                    if (this.responseText.length > 0)
+                        incidents = JSON.parse(this.responseText); // get and objectify
+                    for (incident of incidents) {
+                        console.log(`${incident.name}, ${incident.mobil}, ${incident.besked}, ${incident.need}`);
+                    }
+                });
+                oReq.open("GET", "http://localhost/getIncidents.php");
+                oReq.send();
+            };
+            const doThis = function () {
+                headAndShoulders('Receive');
+                feet(2020);
+                readIncidents();
+            };
+            
+            let rt = document.getElementById("div1");
+
+            fetch('data/incidents.json')
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (data) {
+    appendData(data);
+  })
+  .catch(function (err) {
+    console.log(err);
+  });
+
+  function appendData(data) {
+  var mainContainer = document.getElementById("myData");
+  for (var i = 0; i < data.length; i++) {
+    var div = document.createElement("div");
+    div.innerHTML = '<br>' + '<b>incident:</b> ' + '<br>' + '<br>' + '<b>Name:</b> ' + data[i].name + '<br>'
+     + '<b>mobil: </b>' + data[i].mobil + '<br>'+ '<b>besked:</b> ' + data[i].besked + '<br>' + '<b>Fagperson:</b> ' + data[i].need + '<br>' + '<button id="slet" onclick="clickFunc()">Marker som løst</button>';
+    mainContainer.appendChild(div);
+    
+  }
+  document.getElementById("slet").addEventListener = ("click", clickFunc = function () {
+hentet.splice(data[0,1]);
+
+});
+}
+
+
+            window.addEventListener('load', doThis);
+        </script>
+    </head>
+    <body>
+        <header><h1 class='title'></h1></header>    <!-- autofilled -->
+        <main>
+            <section id='incidents'></section>
+            <div id="div1"></div>
+            <p><a href='./index.html'>incidents</a></p>
+        </main>
+        <footer></footer>                           <!-- autofilled -->
+    </body>
+</html>
